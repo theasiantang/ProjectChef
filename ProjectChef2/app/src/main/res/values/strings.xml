@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Project Chef</string>
+    <string name="home_subtitle">Recipe of the Day</string>
+    <string name="home_subtitle2">Topics</string>
+    <string name="action_settings">Settings</string>
+    <string name="menu_search">Search</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+    <string-array name="drawer_items">
+        <item>Home</item>
+        <item>My Recipes</item>
+        <item>Settings</item>
+        <item>Help</item>
+        <item>Feedback</item>
+    </string-array>
+
+</resources>
