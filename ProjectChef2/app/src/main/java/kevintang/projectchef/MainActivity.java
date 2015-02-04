@@ -1,5 +1,7 @@
 package kevintang.projectchef;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
@@ -35,12 +37,21 @@ public class MainActivity extends ActionBarActivity {
             "Help",
             "Feedback"
         };
+
+        FragmentManager fragmentManager = getFragmentManager();
+        if(savedInstanceState == null)
+        {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.main, new HomeFragment()).commit();
+        }
+
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.drawer);
 
         // Set the adapter for the list view
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+        mDrawerList.setAdapter(new ArrayAdapter<>(this,
                 R.layout.drawer_list, mDrawerItems));
+
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
@@ -95,7 +106,28 @@ public class MainActivity extends ActionBarActivity {
         if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
+
         // Handle your other action bar items...
+        // Create a new fragment and specify the page to show based on ID selected on the action bar
+        Fragment fragment = null;
+
+        switch(item.getItemId()){
+            case R.id.action_settings:
+                fragment = new SettingsFragment();
+                setTitle(R.string.action_settings); // Sets action bar title
+                break;
+            case R.id.action_search:
+                break;
+            case R.id.action_new:
+                fragment = new AddRecipeFragment();
+                setTitle(R.string.action_new); // Sets action bar title
+                break;
+        }
+
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.main, fragment)
+                .commit();
 
         return super.onOptionsItemSelected(item);
     }
@@ -105,6 +137,33 @@ public class MainActivity extends ActionBarActivity {
      */
     private void selectItem(int position) {
         Toast.makeText(this, R.string.app_name, Toast.LENGTH_SHORT).show();
+
+        // Create a new fragment and specify the page to show based on position
+        Fragment fragment = null;
+
+        switch(position)
+        {
+            case 0:
+                fragment = new HomeFragment();
+                break;
+            case 1:
+                fragment = new MyRecipesFragment();
+                break;
+            case 2:
+                fragment = new SettingsFragment();
+                break;
+            case 3:
+                fragment = new HelpFragment();
+                break;
+            case 4:
+                fragment = new FeedbackFragment();
+                break;
+        }
+
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.main, fragment)
+                .commit();
 
         // Highlight the selected item, update the title, and close the drawer
         mDrawerList.setItemChecked(position, true);
@@ -124,5 +183,4 @@ public class MainActivity extends ActionBarActivity {
             selectItem(position);
         }
     }
-
 }
