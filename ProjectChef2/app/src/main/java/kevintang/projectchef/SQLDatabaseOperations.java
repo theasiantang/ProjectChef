@@ -16,11 +16,11 @@ public class SQLDatabaseOperations extends SQLiteOpenHelper{
     public static final String Comma = ",";
 
     // Table creation command
-    public static final String SQL_Create_Table = "CREATE TABLE" + SQLDatabase.TableContent.Table_Name + " (" +
+    public static final String SQL_Create_Table = "CREATE TABLE " + SQLDatabase.TableContent.Table_Name + "(" +
             SQLDatabase.TableContent._ID + " INTEGER PRIMARY KEY," + SQLDatabase.TableContent.Column_Title + DataType + Comma +
             SQLDatabase.TableContent.Column_Difficulty + DataType + Comma + SQLDatabase.TableContent.Column_Servings + DataType + Comma +
             SQLDatabase.TableContent.Column_Time + DataType + Comma + SQLDatabase.TableContent.Column_Ingredients + DataType +
-            Comma + SQLDatabase.TableContent.Column_Instructions + DataType + Comma + " )";
+            Comma + SQLDatabase.TableContent.Column_Instructions + DataType + ");";
 
     public static final String SQL_Delete_Table = "DROP TABLE IF EXISTS " + SQLDatabase.TableContent.Table_Name;
 
@@ -47,7 +47,7 @@ public class SQLDatabaseOperations extends SQLiteOpenHelper{
                           String TotalTime, String Ingredients, String Instructions){
 
         // Gets the data repository in write mode
-        SQLiteDatabase db = Database.getWritableDatabase();
+        SQLiteDatabase DB = Database.getWritableDatabase();
 
         // Create a new map of values, where column names are the keys
         ContentValues Values = new ContentValues();
@@ -59,7 +59,7 @@ public class SQLDatabaseOperations extends SQLiteOpenHelper{
         Values.put(SQLDatabase.TableContent.Column_Instructions, Instructions);
 
         // Insert the new row, returning the primary key value of the new row
-        long RowID = db.insert(SQLDatabase.TableContent.Table_Name, null, Values);
+        long RowID = DB.insert(SQLDatabase.TableContent.Table_Name, null, Values);
         Log.d("Database Operations", "New Data Entry Inserted");
     }
 }

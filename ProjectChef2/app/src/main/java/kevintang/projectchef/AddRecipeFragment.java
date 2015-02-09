@@ -22,11 +22,18 @@ public class AddRecipeFragment extends Fragment{
     View rootView;
     EditText TitleText, DifficultyText, ServingsText, TimeText, IngredientsText, InstructionsText;
     String mTitle, mDifficulty, mServings, mTime, mIngredients, mInstructions;
-    Context mContext;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         rootView = inflater.inflate(R.layout.add_recipe_layout, container, false);
+
+        TitleText = (EditText)rootView.findViewById(R.id.titleText);
+        DifficultyText = (EditText)rootView.findViewById(R.id.difficultyText);
+        ServingsText = (EditText)rootView.findViewById(R.id.servingsText);
+        TimeText = (EditText)rootView.findViewById(R.id.timeText);
+        IngredientsText = (EditText)rootView.findViewById(R.id.ingredientsText);
+        InstructionsText = (EditText)rootView.findViewById(R.id.instructionsText);
+
         return rootView;
     }
 
@@ -34,13 +41,6 @@ public class AddRecipeFragment extends Fragment{
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
-        TitleText = (EditText)getActivity().findViewById(R.id.titleText);
-        DifficultyText = (EditText)getActivity().findViewById(R.id.difficultyText);
-        ServingsText = (EditText)getActivity().findViewById(R.id.servingsText);
-        TimeText = (EditText)getActivity().findViewById(R.id.timeText);
-        IngredientsText = (EditText)getActivity().findViewById(R.id.ingredientsText);
-        InstructionsText = (EditText)getActivity().findViewById(R.id.instructionsText);
     }
 
     @Override
@@ -68,18 +68,18 @@ public class AddRecipeFragment extends Fragment{
                 mIngredients = IngredientsText.getText().toString();
                 mInstructions = InstructionsText.getText().toString();
 
-                if(TitleText.getText() == null || DifficultyText.getText() == null || ServingsText.getText() == null
-                        || TimeText.getText() == null || IngredientsText.getText() == null || InstructionsText.getText() == null){
+                if(mTitle.matches("") || mDifficulty.matches("") || mServings.matches("")
+                        || mTime.matches("") || mIngredients.matches("") || mInstructions.matches("")){
 
                     Toast.makeText(getActivity().getBaseContext(), "Complete all fields", Toast.LENGTH_LONG).show();
                 }
                 else{
-                    SQLDatabaseOperations Database = new SQLDatabaseOperations(mContext);
+                    SQLDatabaseOperations Database = new SQLDatabaseOperations(getActivity().getApplicationContext());
                     Database.DataEntry(Database, mTitle, mDifficulty, mServings, mTime, mIngredients, mInstructions);
                     Toast.makeText(getActivity().getBaseContext(), "Recipe Saved", Toast.LENGTH_LONG).show();
                     //getActivity().getFragmentManager().beginTransaction().remove(this).commit();
                 }
-                break;
+                return true;
             case R.id.action_settings:
                 fragment = new SettingsFragment();
                 getActivity().setTitle(R.string.action_settings); // Sets action bar title

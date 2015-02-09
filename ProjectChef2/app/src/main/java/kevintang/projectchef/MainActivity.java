@@ -122,6 +122,9 @@ public class MainActivity extends ActionBarActivity {
                 fragment = new AddRecipeFragment();
                 setTitle(R.string.action_new); // Sets action bar title
                 break;
+            case R.id.action_save:
+                return false;
+
         }
 
         FragmentManager fragmentManager = getFragmentManager();
