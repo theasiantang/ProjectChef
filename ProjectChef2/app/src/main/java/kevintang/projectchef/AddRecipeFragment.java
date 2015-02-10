@@ -77,7 +77,13 @@ public class AddRecipeFragment extends Fragment{
                     SQLDatabaseOperations Database = new SQLDatabaseOperations(getActivity().getApplicationContext());
                     Database.DataEntry(Database, mTitle, mDifficulty, mServings, mTime, mIngredients, mInstructions);
                     Toast.makeText(getActivity().getBaseContext(), "Recipe Saved", Toast.LENGTH_LONG).show();
-                    //getActivity().getFragmentManager().beginTransaction().remove(this).commit();
+
+                    TitleText.setText("");
+                    DifficultyText.setText("");
+                    ServingsText.setText("");
+                    TimeText.setText("");
+                    IngredientsText.setText("");
+                    InstructionsText.setText("");
                 }
                 return true;
             case R.id.action_settings:
