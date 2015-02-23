@@ -6,4 +6,9 @@
         android:title="@string/action_save"
         android:icon="@drawable/ic_action_accept"
         app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/action_camera"
+        android:title="@string/action_camera"
+        android:icon="@drawable/ic_action_camera"
+        app:showAsAction="ifRoom"/>
 </menu>

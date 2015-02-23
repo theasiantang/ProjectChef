@@ -124,6 +124,8 @@ public class MainActivity extends ActionBarActivity {
                 break;
             case R.id.action_save:
                 return false;
+            case R.id.action_camera:
+                return false;
 
         }
 
