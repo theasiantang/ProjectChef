@@ -1,8 +1,10 @@
 package kevintang.projectchef;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -15,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -29,9 +32,10 @@ public class AddRecipeFragment extends Fragment{
     View rootView;
     EditText TitleText, DifficultyText, ServingsText, TimeText, IngredientsText, InstructionsText;
     String mTitle, mDifficulty, mServings, mTime, mIngredients, mInstructions;
-    private static final int Capture_Image_Request_Code = 1337;
-    private static final int Result_OK = -1, Result_Canceled = 0;
-    public static final int Media_Type_Image = 1;
+
+    private static final int Capture_Image_Request_Code = 100;
+    private static final int Media_Type_Image = 1;
+    private Uri FileUri;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -98,7 +102,6 @@ public class AddRecipeFragment extends Fragment{
                 return true;
 
             case R.id.action_camera:
-                Uri FileUri;
 
                 // Create intent to take a picture and return control to the calling application
                 Intent CameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -129,7 +132,6 @@ public class AddRecipeFragment extends Fragment{
     }
 
     private static File getOutputMediaFile(int type){
-
         // This location works best if you want the created images to be shared
         // between applications and persist after your app has been uninstalled
         File MediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "Project Chef Camera");
@@ -158,17 +160,27 @@ public class AddRecipeFragment extends Fragment{
 
     @Override
     public void onActivityResult(int RequestCode, int ResultCode, Intent Data){
+        super.onActivityResult(RequestCode, ResultCode, Data);
+
         if(RequestCode == Capture_Image_Request_Code){
-            if(ResultCode == Result_OK){
+            if(ResultCode == Activity.RESULT_OK){
                 // Image captured and saved to fileUri specified in the Intent
+                ImageView Image = (ImageView)rootView.findViewById(R.id.imageView);
+                Bundle bundle = Data.getExtras();
+                Bitmap BMP = (Bitmap)bundle.get("data");
+                Image.setImageBitmap(BMP);
+
+                Log.d("Image Capture", "Image Capture Successful");
                 Toast.makeText(getActivity().getBaseContext(), "Image saved to:\n" + Data.getData(), Toast.LENGTH_LONG).show();
             }
-            else if(ResultCode == Result_Canceled){
+            else if(ResultCode == Activity.RESULT_CANCELED){
                 // User cancelled the image capture
+                Log.d("Image Capture", "Image Capture Canceled");
                 Toast.makeText(getActivity().getBaseContext(), "Image Capture Cancelled", Toast.LENGTH_LONG).show();
             }
             else{
                 // Image capture failed, advise user
+                Log.d("Image Capture", "Image Capture Failed");
                 Toast.makeText(getActivity().getBaseContext(), "Retry Image Capture", Toast.LENGTH_LONG).show();
             }
         }
