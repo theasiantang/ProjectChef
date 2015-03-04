@@ -3,6 +3,7 @@ package kevintang.projectchef;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -165,13 +166,21 @@ public class AddRecipeFragment extends Fragment{
         if(RequestCode == Capture_Image_Request_Code){
             if(ResultCode == Activity.RESULT_OK){
                 // Image captured and saved to fileUri specified in the Intent
+                Uri SelectedImage = FileUri;
+                getActivity().getContentResolver().notifyChange(SelectedImage, null);
                 ImageView Image = (ImageView)rootView.findViewById(R.id.imageView);
-                Bundle bundle = Data.getExtras();
-                Bitmap BMP = (Bitmap)bundle.get("data");
-                Image.setImageBitmap(BMP);
+                ContentResolver CR = getActivity().getContentResolver();
+                Bitmap BMPImage;
 
-                Log.d("Image Capture", "Image Capture Successful");
-                Toast.makeText(getActivity().getBaseContext(), "Image saved to:\n" + Data.getData(), Toast.LENGTH_LONG).show();
+                try{
+                    BMPImage = MediaStore.Images.Media.getBitmap(CR, SelectedImage);
+                    Image.setImageBitmap(BMPImage);
+
+                    Log.d("Image Capture", "Image Capture Successful");
+                    Toast.makeText(getActivity().getBaseContext(), SelectedImage.toString(), Toast.LENGTH_LONG).show();
+                }catch(Exception e){
+                    Log.e("Exception", e.toString());
+                }
             }
             else if(ResultCode == Activity.RESULT_CANCELED){
                 // User cancelled the image capture
