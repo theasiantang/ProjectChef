@@ -17,7 +17,6 @@ public class HomeFragment extends Fragment implements GetHttpData{
     View rootView;
     TextView ResponseDataView;
     Button RequestButton;
-    String Response;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -30,26 +29,24 @@ public class HomeFragment extends Fragment implements GetHttpData{
             @Override
             public void onClick(View v) {
                 if(v.getId() == R.id.HttpRequestButton){
-                    //Intent intent = new Intent(getActivity().getBaseContext(), TestActivityForResponse.class);
-                    //startActivity(intent);
-                    GetData();
+                    //GetData();
                 }
             }
         });
 
+        GetData();
         return rootView;
     }
 
     @Override
     public void onTaskCompleted(String HttpData){
         // What to do with the Response
-        Response = HttpData;
         ResponseDataView.setText(HttpData);
         Toast.makeText(getActivity().getBaseContext(), "Response Retrieved", Toast.LENGTH_LONG).show();
     }
 
     public void GetData(){
         GetDataAsync GetData = new GetDataAsync(this);
-        GetData.execute("http://08309.net.dcs.hull.ac.uk/api/admin/register?firstname=Joe&Surname=Bloggs&username=joebloggs&password=secret");
+        GetData.execute("http://api.campbellskitchen.com/brandservice.svc/api/recipe/26746?format=json&app_id=2e37b2ff&app_key=8c93684218cdcd342d3453a850e9564d");
     }
 }
