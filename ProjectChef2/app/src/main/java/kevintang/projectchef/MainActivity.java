@@ -4,7 +4,9 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -86,12 +88,6 @@ public class MainActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-
-        // Associate searchable configuration with the SearchView
-        SearchManager searchManager = (SearchManager)getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView)menu.findItem(R.id.action_search).getActionView();
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-
         return true;
     }
 
@@ -126,6 +122,8 @@ public class MainActivity extends ActionBarActivity {
                 setTitle(R.string.action_settings); // Sets action bar title
                 break;
             case R.id.action_search:
+                fragment = new SearchMenuFragment();
+                setTitle(R.string.search);
                 break;
             case R.id.action_new:
                 fragment = new AddRecipeFragment();

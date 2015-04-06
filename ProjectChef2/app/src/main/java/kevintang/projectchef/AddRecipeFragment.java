@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,6 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -29,14 +31,16 @@ import java.util.Date;
  * Created by Kevin on 03/02/2015.
  */
 
-public class AddRecipeFragment extends Fragment{
+public class AddRecipeFragment extends Fragment {
     View rootView;
-    EditText TitleText, DifficultyText, ServingsText, TimeText, IngredientsText, InstructionsText;
+    static EditText TitleText, DifficultyText, ServingsText, TimeText, IngredientsText, InstructionsText;
     String mTitle, mDifficulty, mServings, mTime, mIngredients, mInstructions;
+    Button AddIngredientButton, AddStepButton;
 
     private static final int Capture_Image_Request_Code = 100;
     private static final int Media_Type_Image = 1;
     private Uri FileUri;
+    int StepNumber = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -48,6 +52,35 @@ public class AddRecipeFragment extends Fragment{
         TimeText = (EditText)rootView.findViewById(R.id.timeText);
         IngredientsText = (EditText)rootView.findViewById(R.id.ingredientsText);
         InstructionsText = (EditText)rootView.findViewById(R.id.instructionsText);
+        AddIngredientButton = (Button)rootView.findViewById(R.id.AddIngredientButton);
+        AddStepButton = (Button)rootView.findViewById(R.id.AddStepButton);
+
+        // Add Step button adds a new step to the Editable text box for the user include instructions for a recipe
+        // As each step is added the step count is incremented by 1
+        AddStepButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(InstructionsText.getText().toString().matches("")){
+                    StepNumber += 1;
+                    InstructionsText.setText("Step " + StepNumber + ":");
+                }
+                else{
+                    if(StepNumber == StepNumber){
+                        StepNumber += 1;
+                        InstructionsText.setText(InstructionsText.getText().toString() + "\n" + "Step " + StepNumber + ":");
+                    }
+                }
+                Toast.makeText(getActivity(), "Added Step", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        AddIngredientButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IngredientDialog Dialog = new IngredientDialog();
+                Dialog.show(getFragmentManager(), "Ingredient_Dialog");
+            }
+        });
 
         return rootView;
     }
