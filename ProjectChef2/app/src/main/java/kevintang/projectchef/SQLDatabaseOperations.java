@@ -60,7 +60,16 @@ public class SQLDatabaseOperations extends SQLiteOpenHelper{
         Values.put(SQLDatabase.TableContent.Column_Instructions, Instructions);
 
         // Insert the new row, returning the primary key value of the new row
-        long RowID = DB.insert(SQLDatabase.TableContent.Table_Name, null, Values);
+        long RowID;
+        RowID = DB.insert(SQLDatabase.TableContent.Table_Name, null, Values);
         Log.d("Database Operations", "New Data Entry Inserted");
+    }
+
+    public Cursor GetInformation(SQLDatabaseOperations Database){
+        SQLiteDatabase DB = Database.getReadableDatabase();
+        String[] Columns = {SQLDatabase.TableContent.Column_Title, SQLDatabase.TableContent.Column_Difficulty, SQLDatabase.TableContent.Column_Servings,
+                SQLDatabase.TableContent.Column_Time, SQLDatabase.TableContent.Column_Ingredients, SQLDatabase.TableContent.Column_Instructions};
+        Cursor cursor = DB.query(SQLDatabase.TableContent.Table_Name, Columns, null, null, null, null, null);
+        return cursor;
     }
 }

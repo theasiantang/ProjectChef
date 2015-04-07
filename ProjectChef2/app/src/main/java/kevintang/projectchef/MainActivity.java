@@ -165,7 +165,7 @@ public class MainActivity extends ActionBarActivity {
                 fragment = new SettingsFragment();
                 break;
             case 3:
-                fragment = new HelpFragment();
+                fragment = new RecipeFragment();
                 break;
             case 4:
                 fragment = new FeedbackFragment();

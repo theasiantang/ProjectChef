@@ -64,13 +64,13 @@ public class InstructionDialog extends DialogFragment{
                     String Description = DescriptionEditText.getText().toString();
                     String InstructionsText = AddRecipeFragment.InstructionsText.getText().toString();
 
-                    if(Description.matches("")){
+                    if(Description.matches("")){    // Checks if description has been filled
                         Toast.makeText(getActivity(), "Step description required", Toast.LENGTH_SHORT).show();
                     }
-                    else if(InstructionsText.matches("")){
+                    else if(InstructionsText.matches("")){  // Checks if the edit text is empty, if so, its the first step
                         dismiss(); // closes dialog box
                     }
-                    else{
+                    else{   // if all pass then it means its the next step and description has been filled
                         dismiss(); // closes dialog box
                     }
 

@@ -9,6 +9,7 @@
     <string name="search">Search</string>
     <string name="action_new">New Recipe</string>
     <string name="action_save">Save Recipe</string>
+    <string name="action_share">Share</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="search_hint">E.g. dish, meat, vegetable</string>

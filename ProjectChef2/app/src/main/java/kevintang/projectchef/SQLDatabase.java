@@ -14,6 +14,7 @@ public class SQLDatabase {
     // Defines the table contents
     public static abstract class TableContent implements BaseColumns{
         public static final String Table_Name = "user_recipes";
+        //public static final String _ID = null;
         public static final String Column_Title = "title";
         public static final String Column_Difficulty = "difficulty";
         public static final String Column_Servings = "number_of_servings";

@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/MyRecipeImageView"
+        android:src="@drawable/ic_launcher" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="My Recipes"
-        android:id="@+id/textView2" />
+        android:layout_alignLeft="@+id/MyRecipeImageView"
+        android:layout_alignStart="@+id/MyRecipeImageView"
+        android:layout_alignTop="@+id/MyRecipeImageView"
+        android:layout_alignRight="@+id/MyRecipeImageView"
+        android:layout_alignEnd="@+id/MyRecipeImageView"
+        android:layout_alignBottom="@+id/MyRecipeImageView"
+        android:gravity="center"
+        android:textColor="#000"
+        android:text="My Recipe"
+        android:id="@+id/MyRecipeTitleView"
+        android:textAlignment="center" />
 </RelativeLayout>
