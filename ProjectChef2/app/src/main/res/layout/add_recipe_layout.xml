@@ -18,21 +18,23 @@
             android:layout_height="wrap_content"
             android:id="@+id/difficultyText"
             android:singleLine="true"
-            android:hint="Difficulty" />
+            android:hint="Difficulty (eg. easy)" />
 
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/servingsText"
             android:singleLine="true"
-            android:hint="No. of Servings" />
+            android:inputType="number"
+            android:hint="No. of Servings (eg. 4)" />
 
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/timeText"
             android:singleLine="true"
-            android:hint="Total Time" />
+            android:inputType="time"
+            android:hint="Total Time (minutes)" />
 
         <EditText
             android:layout_width="fill_parent"
@@ -40,7 +42,7 @@
             android:id="@+id/ingredientsText"
             android:inputType="textMultiLine"
             android:nestedScrollingEnabled="true"
-            android:hint="Ingredients" />
+            android:hint="Ingredients (eg. 100 ml milk)" />
 
         <Button
             android:layout_width="match_parent"
@@ -54,7 +56,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/instructionsText"
             android:inputType="textMultiLine"
-            android:hint="Instructions"
+            android:hint="Instructions (eg. step 1...)"
             android:nestedScrollingEnabled="true" />
 
         <Button

@@ -14,12 +14,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="unit"
+        android:singleLine="true"
         android:id="@+id/UnitEditText"/>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="name of ingredient"
+        android:singleLine="true"
         android:id="@+id/IngredientNameEditText"/>
 
 </LinearLayout>

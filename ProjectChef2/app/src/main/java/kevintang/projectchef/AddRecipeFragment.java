@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,7 +24,9 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Kevin on 03/02/2015.
@@ -33,14 +34,14 @@ import java.util.Date;
 
 public class AddRecipeFragment extends Fragment {
     View rootView;
-    static EditText TitleText, DifficultyText, ServingsText, TimeText, IngredientsText, InstructionsText;
+    EditText TitleText, DifficultyText, ServingsText, TimeText;
+    static EditText IngredientsText, InstructionsText;
     String mTitle, mDifficulty, mServings, mTime, mIngredients, mInstructions;
     Button AddIngredientButton, AddStepButton;
 
     private static final int Capture_Image_Request_Code = 100;
     private static final int Media_Type_Image = 1;
     private Uri FileUri;
-    int StepNumber = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -60,17 +61,8 @@ public class AddRecipeFragment extends Fragment {
         AddStepButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(InstructionsText.getText().toString().matches("")){
-                    StepNumber += 1;
-                    InstructionsText.setText("Step " + StepNumber + ":");
-                }
-                else{
-                    if(StepNumber == StepNumber){
-                        StepNumber += 1;
-                        InstructionsText.setText(InstructionsText.getText().toString() + "\n" + "Step " + StepNumber + ":");
-                    }
-                }
-                Toast.makeText(getActivity(), "Added Step", Toast.LENGTH_SHORT).show();
+                InstructionDialog Dialog = new InstructionDialog();
+                Dialog.show(getFragmentManager(), "Ingredient_Dialog");
             }
         });
 
@@ -119,12 +111,12 @@ public class AddRecipeFragment extends Fragment {
                 if(mTitle.matches("") || mDifficulty.matches("") || mServings.matches("")
                         || mTime.matches("") || mIngredients.matches("") || mInstructions.matches("")){
 
-                    Toast.makeText(getActivity().getBaseContext(), "Complete all fields", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "Complete all fields", Toast.LENGTH_LONG).show();
                 }
                 else{
                     SQLDatabaseOperations Database = new SQLDatabaseOperations(getActivity().getApplicationContext());
                     Database.DataEntry(Database, mTitle, mDifficulty, mServings, mTime, mIngredients, mInstructions);
-                    Toast.makeText(getActivity().getBaseContext(), "Recipe Saved", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), "Recipe Saved", Toast.LENGTH_LONG).show();
 
                     TitleText.setText("");
                     DifficultyText.setText("");
@@ -136,7 +128,6 @@ public class AddRecipeFragment extends Fragment {
                 return true;
 
             case R.id.action_camera:
-
                 // Create intent to take a picture and return control to the calling application
                 Intent CameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
