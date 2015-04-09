@@ -1,6 +1,9 @@
 package kevintang.projectchef;
 
 import android.app.Fragment;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -8,18 +11,31 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 /**
  * Created by Kevin on 03/02/2015.
  */
 public class RecipeFragment extends Fragment{
     View rootView;
+    ImageView RecipeImageView;
+    TextView TitleTextView, DifficultyTextView,ServingsTextView, TimeTextView,IngredientsTextView,InstructionsTextView, NoImageView;
+    String PrimaryKey, Title, Difficulty, Servings, Time, Ingredients, Instructions, ImageFilePath;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         rootView = inflater.inflate(R.layout.recipe_layout, container, false);
 
+        TitleTextView = (TextView)rootView.findViewById(R.id.TitleTextView);
+        DifficultyTextView = (TextView)rootView.findViewById(R.id.DifficultyTextView);
+        ServingsTextView = (TextView)rootView.findViewById(R.id.ServingsTextView);
+        TimeTextView = (TextView)rootView.findViewById(R.id.TimeTextView);
+        IngredientsTextView = (TextView)rootView.findViewById(R.id.IngredientsTextView);
+        InstructionsTextView = (TextView)rootView.findViewById(R.id.InstructionsTextView);
+        NoImageView = (TextView)rootView.findViewById(R.id.NoImageView);
 
+        Recipe();
         return rootView;
     }
 
@@ -44,5 +60,39 @@ public class RecipeFragment extends Fragment{
     public boolean onOptionsItemSelected(MenuItem item){
         // handles touch events on the actionbar
         return super.onOptionsItemSelected(item);
+    }
+
+    public void Recipe(){
+        PrimaryKey = getArguments().getString("Recipe_PrimaryKey");
+        SQLDatabaseOperations DB = new SQLDatabaseOperations(getActivity());
+        Cursor cursor = DB.GetRow(DB, PrimaryKey);
+        cursor.moveToFirst();
+
+        Title = cursor.getString(cursor.getColumnIndex(SQLDatabase.TableContent.Column_Title));
+        Difficulty = cursor.getString(cursor.getColumnIndex(SQLDatabase.TableContent.Column_Difficulty));
+        Servings = cursor.getString(cursor.getColumnIndex(SQLDatabase.TableContent.Column_Servings));
+        Time = cursor.getString(cursor.getColumnIndex(SQLDatabase.TableContent.Column_Time));
+        Ingredients = cursor.getString(cursor.getColumnIndex(SQLDatabase.TableContent.Column_Ingredients));
+        Instructions = cursor.getString(cursor.getColumnIndex(SQLDatabase.TableContent.Column_Instructions));
+        ImageFilePath = cursor.getString(cursor.getColumnIndex(SQLDatabase.TableContent.Column_ImageFilePath));
+
+        TitleTextView.setText(Title);
+        DifficultyTextView.setText(Difficulty);
+        ServingsTextView.setText(Servings);
+        TimeTextView.setText(Time);
+        IngredientsTextView.setText(Ingredients);
+        InstructionsTextView.setText(Instructions);
+        if(ImageFilePath == null){
+                NoImageView.setText("No Image");
+        }
+        else{
+            // FIX ME!!!!!!!!
+            BitmapFactory.Options BOptions = new BitmapFactory.Options();
+            BOptions.inJustDecodeBounds = false;
+            BOptions.inSampleSize = 4;
+            BOptions.inPurgeable = true;
+            Bitmap bitmap = BitmapFactory.decodeFile(ImageFilePath, BOptions);
+            RecipeImageView.setImageBitmap(bitmap);
+        }
     }
 }

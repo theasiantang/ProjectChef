@@ -19,7 +19,7 @@
         android:layout_alignRight="@+id/MyRecipeImageView"
         android:layout_alignEnd="@+id/MyRecipeImageView"
         android:layout_alignBottom="@+id/MyRecipeImageView"
-        android:gravity="center"
+        android:gravity="bottom"
         android:textColor="#000"
         android:text="My Recipe"
         android:id="@+id/MyRecipeTitleView"

@@ -2,11 +2,7 @@ package kevintang.projectchef;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.SearchManager;
-import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -17,7 +13,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.Toast;
 
 
@@ -165,7 +160,7 @@ public class MainActivity extends ActionBarActivity {
                 fragment = new SettingsFragment();
                 break;
             case 3:
-                fragment = new RecipeFragment();
+                fragment = new HelpFragment();
                 break;
             case 4:
                 fragment = new FeedbackFragment();
@@ -173,9 +168,7 @@ public class MainActivity extends ActionBarActivity {
         }
 
         FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.main, fragment)
-                .commit();
+        fragmentManager.beginTransaction().replace(R.id.main, fragment).commit();
 
         // Highlight the selected item, update the title, and close the drawer
         mDrawerList.setItemChecked(position, true);

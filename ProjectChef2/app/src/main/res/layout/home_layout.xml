@@ -6,6 +6,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Delete Table"
+            android:onClick="DeleteButtonClicked"
+            android:id="@+id/DeleteOldButton"/>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

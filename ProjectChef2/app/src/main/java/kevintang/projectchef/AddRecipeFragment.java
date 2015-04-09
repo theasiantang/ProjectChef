@@ -24,9 +24,7 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Kevin on 03/02/2015.
@@ -36,9 +34,8 @@ public class AddRecipeFragment extends Fragment {
     View rootView;
     EditText TitleText, DifficultyText, ServingsText, TimeText;
     static EditText IngredientsText, InstructionsText;
-    String mTitle, mDifficulty, mServings, mTime, mIngredients, mInstructions;
+    String mTitle, mDifficulty, mServings, mTime, mIngredients, mInstructions, mImageFilePath = null;
     Button AddIngredientButton, AddStepButton;
-
     private static final int Capture_Image_Request_Code = 100;
     private static final int Media_Type_Image = 1;
     private Uri FileUri;
@@ -99,7 +96,6 @@ public class AddRecipeFragment extends Fragment {
 
         switch(item.getItemId()){
             case R.id.action_save:
-
                 // These obtain the data typed by the user in the text fields
                 mTitle = TitleText.getText().toString();
                 mDifficulty = DifficultyText.getText().toString();
@@ -108,14 +104,12 @@ public class AddRecipeFragment extends Fragment {
                 mIngredients = IngredientsText.getText().toString();
                 mInstructions = InstructionsText.getText().toString();
 
-                if(mTitle.matches("") || mDifficulty.matches("") || mServings.matches("")
-                        || mTime.matches("") || mIngredients.matches("") || mInstructions.matches("")){
-
-                    Toast.makeText(getActivity(), "Complete all fields", Toast.LENGTH_LONG).show();
+                if(mTitle.matches("")){
+                    Toast.makeText(getActivity(), "Minimum requirement is the Title", Toast.LENGTH_LONG).show();
                 }
                 else{
-                    SQLDatabaseOperations Database = new SQLDatabaseOperations(getActivity().getApplicationContext());
-                    Database.DataEntry(Database, mTitle, mDifficulty, mServings, mTime, mIngredients, mInstructions);
+                    SQLDatabaseOperations Database = new SQLDatabaseOperations(getActivity());
+                    Database.DataEntry(Database, mTitle, mDifficulty, mServings, mTime, mIngredients, mInstructions, mImageFilePath);
                     Toast.makeText(getActivity(), "Recipe Saved", Toast.LENGTH_LONG).show();
 
                     TitleText.setText("");
@@ -145,9 +139,7 @@ public class AddRecipeFragment extends Fragment {
         }
 
         FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.main, fragment)
-                .commit();
+        fragmentManager.beginTransaction().replace(R.id.main, fragment).commit();
 
         return super.onOptionsItemSelected(item);
     }
@@ -190,18 +182,19 @@ public class AddRecipeFragment extends Fragment {
         if(RequestCode == Capture_Image_Request_Code){
             if(ResultCode == Activity.RESULT_OK){
                 // Image captured and saved to fileUri specified in the Intent
-                Uri SelectedImage = FileUri;
-                getActivity().getContentResolver().notifyChange(SelectedImage, null);
+                Uri CapturedImage = FileUri;
+                getActivity().getContentResolver().notifyChange(CapturedImage, null);
                 ImageView Image = (ImageView)rootView.findViewById(R.id.imageView);
                 ContentResolver CR = getActivity().getContentResolver();
                 Bitmap BMPImage;
 
                 try{
-                    BMPImage = MediaStore.Images.Media.getBitmap(CR, SelectedImage);
+                    BMPImage = MediaStore.Images.Media.getBitmap(CR, CapturedImage);
                     Image.setImageBitmap(BMPImage);
 
+                    mImageFilePath = FileUri.getPath();
                     Log.d("Image Capture", "Image Capture Successful");
-                    Toast.makeText(getActivity().getBaseContext(), SelectedImage.toString(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), CapturedImage.toString(), Toast.LENGTH_LONG).show();
                 }catch(Exception e){
                     Log.e("Exception", e.toString());
                 }

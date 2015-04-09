@@ -18,16 +18,17 @@ public class SQLDatabaseOperations extends SQLiteOpenHelper{
 
     // Table creation command
     public static final String SQL_Create_Table = "CREATE TABLE " + SQLDatabase.TableContent.Table_Name + "(" +
-            SQLDatabase.TableContent._ID + " INTEGER PRIMARY KEY," + SQLDatabase.TableContent.Column_Title + DataType + Comma +
+            SQLDatabase.TableContent._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + SQLDatabase.TableContent.Column_Title + DataType + Comma +
             SQLDatabase.TableContent.Column_Difficulty + DataType + Comma + SQLDatabase.TableContent.Column_Servings + DataType + Comma +
             SQLDatabase.TableContent.Column_Time + DataType + Comma + SQLDatabase.TableContent.Column_Ingredients + DataType +
-            Comma + SQLDatabase.TableContent.Column_Instructions + DataType + ");";
+            Comma + SQLDatabase.TableContent.Column_Instructions + DataType + Comma +
+            SQLDatabase.TableContent.Column_ImageFilePath + DataType + ");";
 
     public static final String SQL_Delete_Table = "DROP TABLE IF EXISTS " + SQLDatabase.TableContent.Table_Name;
 
     public SQLDatabaseOperations(Context context){
         super(context, SQLDatabase.TableContent.Database_Name, null, DatabaseVersion);
-        Log.d("Database Operations", "Database Created");
+        Log.d("Database Operations", "Database Opened");
     }
 
     public void onCreate(SQLiteDatabase Database){
@@ -37,6 +38,7 @@ public class SQLDatabaseOperations extends SQLiteOpenHelper{
 
     public void onUpgrade(SQLiteDatabase Database, int OldVersion, int NewVersion){
         Database.execSQL(SQL_Delete_Table);
+        Log.d("Database Operations", "Table Deleted");
         onCreate(Database);
     }
 
@@ -45,7 +47,7 @@ public class SQLDatabaseOperations extends SQLiteOpenHelper{
     }
 
     public void DataEntry(SQLDatabaseOperations Database, String Title, String Difficulty, String Servings,
-                          String TotalTime, String Ingredients, String Instructions){
+                          String TotalTime, String Ingredients, String Instructions, String ImageFilePath){
 
         // Gets the data repository in write mode
         SQLiteDatabase DB = Database.getWritableDatabase();
@@ -58,6 +60,7 @@ public class SQLDatabaseOperations extends SQLiteOpenHelper{
         Values.put(SQLDatabase.TableContent.Column_Time, TotalTime);
         Values.put(SQLDatabase.TableContent.Column_Ingredients, Ingredients);
         Values.put(SQLDatabase.TableContent.Column_Instructions, Instructions);
+        Values.put(SQLDatabase.TableContent.Column_ImageFilePath, ImageFilePath);
 
         // Insert the new row, returning the primary key value of the new row
         long RowID;
@@ -67,9 +70,17 @@ public class SQLDatabaseOperations extends SQLiteOpenHelper{
 
     public Cursor GetInformation(SQLDatabaseOperations Database){
         SQLiteDatabase DB = Database.getReadableDatabase();
-        String[] Columns = {SQLDatabase.TableContent.Column_Title, SQLDatabase.TableContent.Column_Difficulty, SQLDatabase.TableContent.Column_Servings,
-                SQLDatabase.TableContent.Column_Time, SQLDatabase.TableContent.Column_Ingredients, SQLDatabase.TableContent.Column_Instructions};
+        String[] Columns = {SQLDatabase.TableContent._ID, SQLDatabase.TableContent.Column_Title, SQLDatabase.TableContent.Column_Difficulty, SQLDatabase.TableContent.Column_Servings,
+                SQLDatabase.TableContent.Column_Time, SQLDatabase.TableContent.Column_Ingredients, SQLDatabase.TableContent.Column_Instructions, SQLDatabase.TableContent.Column_ImageFilePath};
         Cursor cursor = DB.query(SQLDatabase.TableContent.Table_Name, Columns, null, null, null, null, null);
+        return cursor;
+    }
+
+    public Cursor GetRow(SQLDatabaseOperations Database, String ID){
+        SQLiteDatabase DB = Database.getReadableDatabase();
+        String[] Columns = {SQLDatabase.TableContent._ID, SQLDatabase.TableContent.Column_Title, SQLDatabase.TableContent.Column_Difficulty, SQLDatabase.TableContent.Column_Servings,
+                SQLDatabase.TableContent.Column_Time, SQLDatabase.TableContent.Column_Ingredients, SQLDatabase.TableContent.Column_Instructions, SQLDatabase.TableContent.Column_ImageFilePath};
+        Cursor cursor = DB.query(SQLDatabase.TableContent.Table_Name, Columns, SQLDatabase.TableContent._ID+"=?", new String[]{ID}, null, null, null);
         return cursor;
     }
 }

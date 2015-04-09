@@ -19,7 +19,7 @@ public class InstructionDialog extends DialogFragment{
     LayoutInflater inflater;
     View rootView;
     EditText DescriptionEditText;
-    static TextView StepNumberTextView;
+    TextView StepNumberTextView;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState){
