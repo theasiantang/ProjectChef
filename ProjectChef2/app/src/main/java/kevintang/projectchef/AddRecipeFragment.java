@@ -6,6 +6,9 @@ import android.app.FragmentManager;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -36,6 +39,7 @@ public class AddRecipeFragment extends Fragment {
     static EditText IngredientsText, InstructionsText;
     String mTitle, mDifficulty, mServings, mTime, mIngredients, mInstructions, mImageFilePath = null;
     Button AddIngredientButton, AddStepButton;
+    ImageView Image;
     private static final int Capture_Image_Request_Code = 100;
     private static final int Media_Type_Image = 1;
     private Uri FileUri;
@@ -52,6 +56,7 @@ public class AddRecipeFragment extends Fragment {
         InstructionsText = (EditText)rootView.findViewById(R.id.instructionsText);
         AddIngredientButton = (Button)rootView.findViewById(R.id.AddIngredientButton);
         AddStepButton = (Button)rootView.findViewById(R.id.AddStepButton);
+        Image = (ImageView)rootView.findViewById(R.id.imageView);
 
         // Add Step button adds a new step to the Editable text box for the user include instructions for a recipe
         // As each step is added the step count is incremented by 1
@@ -118,6 +123,7 @@ public class AddRecipeFragment extends Fragment {
                     TimeText.setText("");
                     IngredientsText.setText("");
                     InstructionsText.setText("");
+                    Image.setImageResource(R.drawable.ic_launcher);
                 }
                 return true;
 
@@ -184,15 +190,12 @@ public class AddRecipeFragment extends Fragment {
                 // Image captured and saved to fileUri specified in the Intent
                 Uri CapturedImage = FileUri;
                 getActivity().getContentResolver().notifyChange(CapturedImage, null);
-                ImageView Image = (ImageView)rootView.findViewById(R.id.imageView);
                 ContentResolver CR = getActivity().getContentResolver();
-                Bitmap BMPImage;
+                mImageFilePath = FileUri.getPath();
 
                 try{
-                    BMPImage = MediaStore.Images.Media.getBitmap(CR, CapturedImage);
+                    Bitmap BMPImage = MediaStore.Images.Media.getBitmap(CR, CapturedImage);
                     Image.setImageBitmap(BMPImage);
-
-                    mImageFilePath = FileUri.getPath();
                     Log.d("Image Capture", "Image Capture Successful");
                     Toast.makeText(getActivity(), CapturedImage.toString(), Toast.LENGTH_LONG).show();
                 }catch(Exception e){

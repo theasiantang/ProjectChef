@@ -27,9 +27,9 @@ public class HomeFragment extends Fragment implements GetHttpData{
             @Override
             public void onClick(View v) {
                 if(v.getId() == R.id.DeleteOldButton){
-                    SQLDatabaseOperations db = new SQLDatabaseOperations(getActivity());
-                    SQLiteDatabase DB = db.getReadableDatabase();
-                    db.onUpgrade(DB, 1, 1);
+                    SQLDatabaseOperations Database = new SQLDatabaseOperations(getActivity());
+                    SQLiteDatabase DB = Database.getReadableDatabase();
+                    Database.onUpgrade(DB, 1, 1);
                 }
             }
         });

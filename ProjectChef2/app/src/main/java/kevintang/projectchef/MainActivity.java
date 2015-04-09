@@ -3,10 +3,12 @@ package kevintang.projectchef;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.res.Configuration;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -187,5 +189,14 @@ public class MainActivity extends ActionBarActivity {
         public void onItemClick(AdapterView parent, View view, int position, long id) {
             selectItem(position);
         }
+    }
+
+    @Override
+    protected void onDestroy(){
+        SQLDatabaseOperations Database = new SQLDatabaseOperations(this);
+        SQLiteDatabase DB = Database.getReadableDatabase();
+        DB.close();
+        Log.d("Application Operations", "Database closed");
+        super.onDestroy();
     }
 }

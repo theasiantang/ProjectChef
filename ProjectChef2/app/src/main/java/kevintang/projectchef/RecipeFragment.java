@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -13,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.io.File;
 
 /**
  * Created by Kevin on 03/02/2015.
@@ -34,6 +37,7 @@ public class RecipeFragment extends Fragment{
         IngredientsTextView = (TextView)rootView.findViewById(R.id.IngredientsTextView);
         InstructionsTextView = (TextView)rootView.findViewById(R.id.InstructionsTextView);
         NoImageView = (TextView)rootView.findViewById(R.id.NoImageView);
+        RecipeImageView = (ImageView)rootView.findViewById(R.id.RecipeImageView);
 
         Recipe();
         return rootView;
@@ -64,17 +68,17 @@ public class RecipeFragment extends Fragment{
 
     public void Recipe(){
         PrimaryKey = getArguments().getString("Recipe_PrimaryKey");
+        Title = getArguments().getString("Recipe_Title");
+        ImageFilePath = getArguments().getString("Recipe_ImageFilePath");
+
         SQLDatabaseOperations DB = new SQLDatabaseOperations(getActivity());
         Cursor cursor = DB.GetRow(DB, PrimaryKey);
         cursor.moveToFirst();
-
-        Title = cursor.getString(cursor.getColumnIndex(SQLDatabase.TableContent.Column_Title));
         Difficulty = cursor.getString(cursor.getColumnIndex(SQLDatabase.TableContent.Column_Difficulty));
         Servings = cursor.getString(cursor.getColumnIndex(SQLDatabase.TableContent.Column_Servings));
         Time = cursor.getString(cursor.getColumnIndex(SQLDatabase.TableContent.Column_Time));
         Ingredients = cursor.getString(cursor.getColumnIndex(SQLDatabase.TableContent.Column_Ingredients));
         Instructions = cursor.getString(cursor.getColumnIndex(SQLDatabase.TableContent.Column_Instructions));
-        ImageFilePath = cursor.getString(cursor.getColumnIndex(SQLDatabase.TableContent.Column_ImageFilePath));
 
         TitleTextView.setText(Title);
         DifficultyTextView.setText(Difficulty);
@@ -86,13 +90,7 @@ public class RecipeFragment extends Fragment{
                 NoImageView.setText("No Image");
         }
         else{
-            // FIX ME!!!!!!!!
-            BitmapFactory.Options BOptions = new BitmapFactory.Options();
-            BOptions.inJustDecodeBounds = false;
-            BOptions.inSampleSize = 4;
-            BOptions.inPurgeable = true;
-            Bitmap bitmap = BitmapFactory.decodeFile(ImageFilePath, BOptions);
-            RecipeImageView.setImageBitmap(bitmap);
+            RecipeImageView.setImageURI(Uri.parse(new File(ImageFilePath).toString()));
         }
     }
 }
