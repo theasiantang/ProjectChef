@@ -1,6 +1,7 @@
 package kevintang.projectchef;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -63,6 +65,27 @@ public class RecipeFragment extends Fragment{
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         // handles touch events on the actionbar
+        switch(item.getItemId()){
+            case R.id.action_share:
+                break;
+            case R.id.action_edit:
+                Bundle RecipeData = new Bundle();
+                RecipeData.putString("Recipe_PrimaryKey", PrimaryKey);
+                RecipeData.putString("Recipe_Title", Title);
+                RecipeData.putString("Recipe_Difficulty", Difficulty);
+                RecipeData.putString("Recipe_Servings", Servings);
+                RecipeData.putString("Recipe_Time", Time);
+                RecipeData.putString("Recipe_Ingredients", Ingredients);
+                RecipeData.putString("Recipe_Instructions", Instructions);
+                RecipeData.putString("Recipe_ImageFilePath", ImageFilePath);
+                Fragment fragment = new RecipeEditFragment();
+                fragment.setArguments(RecipeData);
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.main, fragment).commit();
+                break;
+            case R.id.action_settings:
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 

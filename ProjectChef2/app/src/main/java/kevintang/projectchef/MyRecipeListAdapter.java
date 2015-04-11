@@ -47,7 +47,6 @@ public class MyRecipeListAdapter extends ArrayAdapter<String> {
             Bitmap ThumbImage = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(mImage.get(position)), 640, 360);
             Image.setImageBitmap(ThumbImage);
         }
-
         return rowView;
     }
 }

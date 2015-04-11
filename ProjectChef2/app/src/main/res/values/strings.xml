@@ -10,9 +10,20 @@
     <string name="action_new">New Recipe</string>
     <string name="action_save">Save Recipe</string>
     <string name="action_share">Share</string>
+    <string name="action_edit">Edit</string>
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="search_hint">E.g. dish, meat, vegetable</string>
     <string name="title_activity_search_results">SearchResultsActivity</string>
+    <string name="title_hint">Title</string>
+    <string name="difficulty_hint">Difficulty (eg. easy)</string>
+    <string name="servings_hint">No. of Servings (eg. 4)</string>
+    <string name="time_hint">Total Time (minutes)</string>
+    <string name="ingredient_hint">Ingredients (eg. 100 ml milk)</string>
+    <string name="instruction_hint">Instructions (eg. step 1&#8230;)</string>
+    <string name="no_image">No Image</string>
+    <string name="add_step">Add Step</string>
+    <string name="add_ingredient">Add Ingredient</string>
+    <string name="add_image">Image Here</string>
 
 </resources>

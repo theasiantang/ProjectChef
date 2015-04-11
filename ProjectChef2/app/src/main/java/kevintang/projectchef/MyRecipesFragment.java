@@ -4,6 +4,7 @@ import android.app.FragmentManager;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,11 +32,10 @@ public class MyRecipesFragment extends Fragment {
 
         SQLDatabaseOperations DB = new SQLDatabaseOperations(getActivity());
         cursor = DB.GetInformation(DB);
-
         if(cursor == null){
             return null;
         }
-        else if(cursor != null && cursor.moveToFirst()){ // move pointer to first row
+        else if(cursor != null && cursor.moveToFirst()){    // move pointer to first row
             ObtainingDatabaseData();
         }
 
@@ -69,11 +69,6 @@ public class MyRecipesFragment extends Fragment {
             TitlesList.add(rTitle);
             ImagesList.add(rImage);
         }while(cursor.moveToNext());                // condition is that this loop will continue as long there is a next row
-
-        PopulateMyRecipesFragment();
-    }
-
-    public void PopulateMyRecipesFragment(){
         // This custom adapter takes the Title and Image arrays and populates the list view within this layout
         MyRecipeListAdapter Adapter = new MyRecipeListAdapter(getActivity(), TitlesList, ImagesList);
         RecipeList.setAdapter(Adapter);

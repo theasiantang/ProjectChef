@@ -3,6 +3,7 @@ package kevintang.projectchef;
 import android.app.Fragment;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,8 @@ public class HomeFragment extends Fragment implements GetHttpData{
                     SQLDatabaseOperations Database = new SQLDatabaseOperations(getActivity());
                     SQLiteDatabase DB = Database.getReadableDatabase();
                     Database.onUpgrade(DB, 1, 1);
+                    DB.close();
+                    Log.d("Database Operations", "Database Closed");
                 }
             }
         });

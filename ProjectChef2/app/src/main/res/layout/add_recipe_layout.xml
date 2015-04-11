@@ -11,14 +11,14 @@
             android:layout_height="wrap_content"
             android:id="@+id/titleText"
             android:singleLine="true"
-            android:hint="Title" />
+            android:hint="@string/title_hint" />
 
         <EditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/difficultyText"
             android:singleLine="true"
-            android:hint="Difficulty (eg. easy)" />
+            android:hint="@string/difficulty_hint" />
 
         <EditText
             android:layout_width="fill_parent"
@@ -26,7 +26,7 @@
             android:id="@+id/servingsText"
             android:singleLine="true"
             android:inputType="number"
-            android:hint="No. of Servings (eg. 4)" />
+            android:hint="@string/servings_hint" />
 
         <EditText
             android:layout_width="fill_parent"
@@ -34,7 +34,7 @@
             android:id="@+id/timeText"
             android:singleLine="true"
             android:inputType="time"
-            android:hint="Total Time (minutes)" />
+            android:hint="@string/time_hint" />
 
         <EditText
             android:layout_width="fill_parent"
@@ -42,12 +42,12 @@
             android:id="@+id/ingredientsText"
             android:inputType="textMultiLine"
             android:nestedScrollingEnabled="true"
-            android:hint="Ingredients (eg. 100 ml milk)" />
+            android:hint="@string/ingredient_hint" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Add Ingredient"
+            android:text="@string/add_ingredient"
             android:onClick="AddIngredientButtonClicked"
             android:id="@+id/AddIngredientButton"/>
 
@@ -56,13 +56,13 @@
             android:layout_height="wrap_content"
             android:id="@+id/instructionsText"
             android:inputType="textMultiLine"
-            android:hint="Instructions (eg. step 1...)"
+            android:hint="@string/instruction_hint"
             android:nestedScrollingEnabled="true" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Add Step"
+            android:text="@string/add_step"
             android:onClick="AddStepButtonClicked"
             android:id="@+id/AddStepButton"/>
 
@@ -72,6 +72,13 @@
             android:id="@+id/imageView"
             android:layout_gravity="center_horizontal"
             android:src="@drawable/ic_launcher" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/add_image"
+            android:gravity="center"
+            android:id="@+id/AddImageView"/>
 
     </LinearLayout>
 </ScrollView>

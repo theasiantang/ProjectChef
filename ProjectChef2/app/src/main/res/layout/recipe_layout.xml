@@ -16,7 +16,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="hello world"
+            android:text="No Image"
             android:gravity="center"
             android:id="@+id/NoImageView"/>
 
@@ -24,36 +24,84 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Title"
+            android:textSize="22sp"
+            android:id="@+id/Title" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Title"
+            android:textSize="20sp"
             android:id="@+id/TitleTextView" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Difficulty"
+            android:textSize="22sp"
             android:id="@+id/DifficultyTextView"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="Difficulty"
+            android:textSize="18sp"
+            android:id="@+id/Difficulty"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="No. of Servings"
+            android:textSize="22sp"
+            android:id="@+id/Servings"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No. of Servings"
+            android:textSize="20sp"
             android:id="@+id/ServingsTextView"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Total Time"
+            android:textSize="22sp"
+            android:id="@+id/Time"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Total Time"
+            android:textSize="20sp"
             android:id="@+id/TimeTextView"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Ingredients"
+            android:textSize="22sp"
+            android:id="@+id/Ingredients"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ingredients"
+            android:textSize="20sp"
             android:id="@+id/IngredientsTextView"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Instructions"
+            android:textSize="22sp"
+            android:id="@+id/Instructions"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Instructions"
+            android:textSize="20sp"
             android:id="@+id/InstructionsTextView"/>
 
     </LinearLayout>

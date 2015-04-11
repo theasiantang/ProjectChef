@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -36,8 +37,9 @@ import java.util.Date;
 public class AddRecipeFragment extends Fragment {
     View rootView;
     EditText TitleText, DifficultyText, ServingsText, TimeText;
+    TextView AddImageView;
     static EditText IngredientsText, InstructionsText;
-    String mTitle, mDifficulty, mServings, mTime, mIngredients, mInstructions, mImageFilePath = null;
+    String mTitle, mDifficulty, mServings, mTime, mIngredients, mInstructions, mImageFilePath;
     Button AddIngredientButton, AddStepButton;
     ImageView Image;
     private static final int Capture_Image_Request_Code = 100;
@@ -57,6 +59,7 @@ public class AddRecipeFragment extends Fragment {
         AddIngredientButton = (Button)rootView.findViewById(R.id.AddIngredientButton);
         AddStepButton = (Button)rootView.findViewById(R.id.AddStepButton);
         Image = (ImageView)rootView.findViewById(R.id.imageView);
+        AddImageView = (TextView)rootView.findViewById(R.id.AddImageView);
 
         // Add Step button adds a new step to the Editable text box for the user include instructions for a recipe
         // As each step is added the step count is incremented by 1
@@ -64,7 +67,7 @@ public class AddRecipeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 InstructionDialog Dialog = new InstructionDialog();
-                Dialog.show(getFragmentManager(), "Ingredient_Dialog");
+                Dialog.show(getFragmentManager(), "Instruction_Dialog");
             }
         });
 
@@ -196,6 +199,7 @@ public class AddRecipeFragment extends Fragment {
                 try{
                     Bitmap BMPImage = MediaStore.Images.Media.getBitmap(CR, CapturedImage);
                     Image.setImageBitmap(BMPImage);
+                    AddImageView.setText("");
                     Log.d("Image Capture", "Image Capture Successful");
                     Toast.makeText(getActivity(), CapturedImage.toString(), Toast.LENGTH_LONG).show();
                 }catch(Exception e){

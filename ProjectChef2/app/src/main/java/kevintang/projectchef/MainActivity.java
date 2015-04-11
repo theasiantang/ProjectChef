@@ -51,8 +51,7 @@ public class MainActivity extends ActionBarActivity {
         mDrawerList = (ListView) findViewById(R.id.drawer);
 
         // Set the adapter for the list view
-        mDrawerList.setAdapter(new ArrayAdapter<>(this,
-                R.layout.drawer_list, mDrawerItems));
+        mDrawerList.setAdapter(new ArrayAdapter<>(this, R.layout.drawer_list, mDrawerItems));
 
         // Set the list's click listener
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
@@ -130,14 +129,19 @@ public class MainActivity extends ActionBarActivity {
                 return false;
             case R.id.action_camera:
                 return false;
+            case R.id.action_share:
+                return false;
+            case R.id.action_edit:
+                return false;
+            case R.id.action_accept:
+                return false;
+            case R.id.action_camera_edit:
+                return false;
 
         }
 
         FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.main, fragment)
-                .commit();
-
+        fragmentManager.beginTransaction().replace(R.id.main, fragment).commit();
         return super.onOptionsItemSelected(item);
     }
 
