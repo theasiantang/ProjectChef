@@ -137,6 +137,8 @@ public class MainActivity extends ActionBarActivity {
                 return false;
             case R.id.action_camera_edit:
                 return false;
+            case R.id.action_delete:
+                return false;
 
         }
 

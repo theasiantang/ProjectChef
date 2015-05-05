@@ -126,4 +126,10 @@ public class SQLDatabaseOperations extends SQLiteOpenHelper{
         Log.d("Database Operations", "Recipe Updated");
         return mRecipe;
     }
+
+    public void DeleteRecipe(SQLDatabaseOperations Database, String ID){
+        SQLiteDatabase DB = Database.getWritableDatabase();
+        DB.delete(SQLDatabase.TableContent.Table_Name, "_ID=" + ID, null);
+        Log.d("Database Operations", "Recipe Deleted");
+    }
 }

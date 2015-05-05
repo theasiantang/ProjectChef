@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 
@@ -80,6 +81,9 @@ public class RecipeFragment extends Fragment{
                 break;
             case R.id.action_settings:
                 break;
+            case R.id.action_delete:
+                Delete();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -128,5 +132,15 @@ public class RecipeFragment extends Fragment{
         else{
             RecipeImageView.setImageURI(Uri.parse(new File(mRecipe.getImageFilePath()).toString()));
         }
+    }
+
+    public void Delete(){
+        SQLDatabaseOperations DB = new SQLDatabaseOperations(getActivity());
+        DB.DeleteRecipe(DB, PrimaryKey);
+        Toast.makeText(getActivity(), "Recipe Deleted", Toast.LENGTH_SHORT).show();
+
+        Fragment fragment = new MyRecipesFragment();
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.main, fragment).commit();
     }
 }

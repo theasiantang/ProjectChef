@@ -3,6 +3,7 @@ package kevintang.projectchef;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.media.ThumbnailUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,10 +51,12 @@ public class MyRecipeListAdapter extends ArrayAdapter<Recipe> {
         mRecipeRow.TextView.setText(mRecipe.getTitle());
         if(mRecipe.getImageFilePath().matches("")){
             mRecipeRow.ImageView.setImageResource(R.drawable.ic_launcher);
+            mRecipeRow.TextView.setTextColor(Color.BLACK);
         }
         else{
             Bitmap ThumbImage = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeFile(mRecipe.getImageFilePath()), 640, 360);
             mRecipeRow.ImageView.setImageBitmap(ThumbImage);
+            mRecipeRow.TextView.setTextColor(Color.WHITE);
         }
         return rowView;
     }
