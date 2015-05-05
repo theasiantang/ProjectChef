@@ -26,7 +26,8 @@ public class RecipeFragment extends Fragment{
     View rootView;
     ImageView RecipeImageView;
     TextView TitleTextView, DifficultyTextView,ServingsTextView, TimeTextView,IngredientsTextView,InstructionsTextView, NoImageView;
-    String PrimaryKey, Title, Difficulty, Servings, Time, Ingredients, Instructions, ImageFilePath;
+    String PrimaryKey;
+    Recipe mRecipe;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -70,14 +71,8 @@ public class RecipeFragment extends Fragment{
                 break;
             case R.id.action_edit:
                 Bundle RecipeData = new Bundle();
-                RecipeData.putString("Recipe_PrimaryKey", PrimaryKey);
-                RecipeData.putString("Recipe_Title", Title);
-                RecipeData.putString("Recipe_Difficulty", Difficulty);
-                RecipeData.putString("Recipe_Servings", Servings);
-                RecipeData.putString("Recipe_Time", Time);
-                RecipeData.putString("Recipe_Ingredients", Ingredients);
-                RecipeData.putString("Recipe_Instructions", Instructions);
-                RecipeData.putString("Recipe_ImageFilePath", ImageFilePath);
+                RecipeData.putSerializable("recipe", mRecipe);
+
                 Fragment fragment = new RecipeEditFragment();
                 fragment.setArguments(RecipeData);
                 FragmentManager fragmentManager = getFragmentManager();
@@ -90,30 +85,48 @@ public class RecipeFragment extends Fragment{
     }
 
     public void Recipe(){
-        PrimaryKey = getArguments().getString("Recipe_PrimaryKey");
-        Title = getArguments().getString("Recipe_Title");
-        ImageFilePath = getArguments().getString("Recipe_ImageFilePath");
+        mRecipe = (Recipe)getArguments().getSerializable("recipe");
+        PrimaryKey = mRecipe.getPrimaryKey();
 
         SQLDatabaseOperations DB = new SQLDatabaseOperations(getActivity());
-        Cursor cursor = DB.GetRow(DB, PrimaryKey);
-        cursor.moveToFirst();
-        Difficulty = cursor.getString(cursor.getColumnIndex(SQLDatabase.TableContent.Column_Difficulty));
-        Servings = cursor.getString(cursor.getColumnIndex(SQLDatabase.TableContent.Column_Servings));
-        Time = cursor.getString(cursor.getColumnIndex(SQLDatabase.TableContent.Column_Time));
-        Ingredients = cursor.getString(cursor.getColumnIndex(SQLDatabase.TableContent.Column_Ingredients));
-        Instructions = cursor.getString(cursor.getColumnIndex(SQLDatabase.TableContent.Column_Instructions));
+        mRecipe = DB.GetRow(DB, PrimaryKey);
 
-        TitleTextView.setText(Title);
-        DifficultyTextView.setText(Difficulty);
-        ServingsTextView.setText(Servings);
-        TimeTextView.setText(Time);
-        IngredientsTextView.setText(Ingredients);
-        InstructionsTextView.setText(Instructions);
-        if(ImageFilePath == null){
-                NoImageView.setText("No Image");
+        TitleTextView.setText(mRecipe.getTitle());
+        if (mRecipe.getDifficulty().matches("")) {
+            DifficultyTextView.setText("N/A");
         }
         else{
-            RecipeImageView.setImageURI(Uri.parse(new File(ImageFilePath).toString()));
+            DifficultyTextView.setText(mRecipe.getDifficulty());
+        }
+        if (mRecipe.getServings().matches("")) {
+            ServingsTextView.setText("N/A");
+        }
+        else{
+            ServingsTextView.setText(mRecipe.getServings());
+        }
+        if (mRecipe.getTime().matches("")) {
+            TimeTextView.setText("N/A");
+        }
+        else{
+            TimeTextView.setText(mRecipe.getTime());
+        }
+        if (mRecipe.getIngredients().matches("")) {
+            IngredientsTextView.setText("Please add a list of ingredients used, to edit click the 'pencil' icon top right.");
+        }
+        else{
+            IngredientsTextView.setText(mRecipe.getIngredients());
+        }
+        if (mRecipe.getInstructions().matches("")) {
+            InstructionsTextView.setText("Please add instructions to the recipe, to edit click the 'pencil' icon top right.");
+        }
+        else{
+            InstructionsTextView.setText(mRecipe.getInstructions());
+        }
+        if(mRecipe.getImageFilePath().matches("")){
+                NoImageView.setText("No Image, image can be added by editing");
+        }
+        else{
+            RecipeImageView.setImageURI(Uri.parse(new File(mRecipe.getImageFilePath()).toString()));
         }
     }
 }

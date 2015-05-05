@@ -45,7 +45,6 @@ public class HomeFragment extends Fragment implements GetHttpData{
     public void onTaskCompleted(String HttpData){
         // What to do with the Response
         RecipeDataView.setText(HttpData);
-        //Toast.makeText(getActivity().getBaseContext(), "Response Retrieved", Toast.LENGTH_SHORT).show();
     }
 
     public void GetData(){

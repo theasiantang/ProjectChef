@@ -15,7 +15,7 @@ import android.widget.Toast;
 /**
  * Created by Kevin on 06/04/2015.
  */
-public class InstructionDialog extends DialogFragment{
+public class InstructionEditDialog extends DialogFragment{
     LayoutInflater inflater;
     View rootView;
     EditText DescriptionEditText;

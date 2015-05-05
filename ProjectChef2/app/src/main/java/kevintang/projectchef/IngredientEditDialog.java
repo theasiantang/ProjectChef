@@ -14,7 +14,7 @@ import android.widget.Toast;
 /**
  * Created by Kevin on 06/04/2015.
  */
-public class IngredientDialog extends DialogFragment {
+public class IngredientEditDialog extends DialogFragment {
     LayoutInflater inflater;
     View rootView;
     EditText QuantityEditText, UnitEditText, IngredientNameEditText;
@@ -62,8 +62,8 @@ public class IngredientDialog extends DialogFragment {
                     String NameIngredient = IngredientNameEditText.getText().toString();
                     String Ingredient = Quantity + " " + Unit + " " + NameIngredient;   // Ingredient
                     String IngredientsText = getArguments().getString("IngredientData");
-                            //AddRecipeFragment.IngredientsText.getText().toString();    // Grabs the ingredients inside the EditText from the
-                                                                                                        // fragment and puts it into a string variable here for checking later
+                    //AddRecipeFragment.IngredientsText.getText().toString();    // Grabs the ingredients inside the EditText from the
+                    // fragment and puts it into a string variable here for checking later
 
                     // Add Ingredient button adds a new ingredient to the Editable text box for the user include ingredients for a recipe
                     // Each new ingredient added is given a newline
@@ -71,11 +71,11 @@ public class IngredientDialog extends DialogFragment {
                         Toast.makeText(getActivity(), "All fields required", Toast.LENGTH_SHORT).show();
                     }
                     else if(IngredientsText.matches("")){
-                        AddRecipeFragment.IngredientsText.setText(Ingredient);
+                        RecipeEditFragment.IngredientsEdit.setText(Ingredient);
                         dismiss();
                     }
                     else{
-                        AddRecipeFragment.IngredientsText.setText(IngredientsText + "\n" + Ingredient);
+                        RecipeEditFragment.IngredientsEdit.setText(IngredientsText + "\n" + Ingredient);
                         dismiss();
                     }
                     Toast.makeText(getActivity(), "Ingredient Added", Toast.LENGTH_SHORT).show();

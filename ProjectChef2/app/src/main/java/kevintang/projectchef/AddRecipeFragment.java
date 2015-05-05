@@ -1,9 +1,11 @@
 package kevintang.projectchef;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -34,17 +36,18 @@ import java.util.Date;
  * Created by Kevin on 03/02/2015.
  */
 
-public class AddRecipeFragment extends Fragment {
+public class AddRecipeFragment extends Fragment{
     View rootView;
     EditText TitleText, DifficultyText, ServingsText, TimeText;
     TextView AddImageView;
     static EditText IngredientsText, InstructionsText;
-    String mTitle, mDifficulty, mServings, mTime, mIngredients, mInstructions, mImageFilePath;
+    String mImageFilePath;
     Button AddIngredientButton, AddStepButton;
     ImageView Image;
     private static final int Capture_Image_Request_Code = 100;
     private static final int Media_Type_Image = 1;
     private Uri FileUri;
+    private Recipe mRecipe = new Recipe();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
@@ -66,7 +69,10 @@ public class AddRecipeFragment extends Fragment {
         AddStepButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bundle InstructionData = new Bundle();
+                InstructionData.putString("InstructionData", InstructionsText.getText().toString());
                 InstructionDialog Dialog = new InstructionDialog();
+                Dialog.setArguments(InstructionData);
                 Dialog.show(getFragmentManager(), "Instruction_Dialog");
             }
         });
@@ -74,7 +80,10 @@ public class AddRecipeFragment extends Fragment {
         AddIngredientButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bundle IngredientData = new Bundle();
+                IngredientData.putString("IngredientData", IngredientsText.getText().toString());
                 IngredientDialog Dialog = new IngredientDialog();
+                Dialog.setArguments(IngredientData);
                 Dialog.show(getFragmentManager(), "Ingredient_Dialog");
             }
         });
@@ -105,19 +114,19 @@ public class AddRecipeFragment extends Fragment {
         switch(item.getItemId()){
             case R.id.action_save:
                 // These obtain the data typed by the user in the text fields
-                mTitle = TitleText.getText().toString();
-                mDifficulty = DifficultyText.getText().toString();
-                mServings = ServingsText.getText().toString();
-                mTime = TimeText.getText().toString();
-                mIngredients = IngredientsText.getText().toString();
-                mInstructions = InstructionsText.getText().toString();
+                mRecipe.setTitle(TitleText.getText().toString());
+                mRecipe.setDifficulty(DifficultyText.getText().toString());
+                mRecipe.setServings(ServingsText.getText().toString());
+                mRecipe.setTime(TimeText.getText().toString());
+                mRecipe.setIngredients(IngredientsText.getText().toString());
+                mRecipe.setInstructions(InstructionsText.getText().toString());
 
-                if(mTitle.matches("")){
-                    Toast.makeText(getActivity(), "Minimum requirement is the Title", Toast.LENGTH_LONG).show();
+                if(mRecipe.getTitle().matches("")){
+                    Toast.makeText(getActivity(), "Minimum requirement is the title", Toast.LENGTH_LONG).show();
                 }
                 else{
                     SQLDatabaseOperations Database = new SQLDatabaseOperations(getActivity());
-                    Database.DataEntry(Database, mTitle, mDifficulty, mServings, mTime, mIngredients, mInstructions, mImageFilePath);
+                    Database.DataEntry(Database, mRecipe);
                     Toast.makeText(getActivity(), "Recipe Saved", Toast.LENGTH_LONG).show();
 
                     TitleText.setText("");
@@ -195,6 +204,7 @@ public class AddRecipeFragment extends Fragment {
                 getActivity().getContentResolver().notifyChange(CapturedImage, null);
                 ContentResolver CR = getActivity().getContentResolver();
                 mImageFilePath = FileUri.getPath();
+                mRecipe.setImageFilePath(mImageFilePath);
 
                 try{
                     Bitmap BMPImage = MediaStore.Images.Media.getBitmap(CR, CapturedImage);

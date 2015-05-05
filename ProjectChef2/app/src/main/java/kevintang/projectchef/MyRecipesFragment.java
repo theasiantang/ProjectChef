@@ -19,10 +19,8 @@ import java.util.ArrayList;
 public class MyRecipesFragment extends Fragment {
     View rootView;
     ListView RecipeList;
-    String rKey, rTitle, rImage;
-    ArrayList<String> TitlesList = new ArrayList<>();
-    ArrayList<String> ImagesList = new ArrayList<>();
-    ArrayList<String> PrimaryKeysList = new ArrayList<>();
+    Recipe mRecipe;
+    ArrayList<Recipe> RecipesList = new ArrayList<>();
     Cursor cursor;
 
     @Override
@@ -36,20 +34,18 @@ public class MyRecipesFragment extends Fragment {
             return null;
         }
         else if(cursor != null && cursor.moveToFirst()){    // move pointer to first row
-            ObtainingDatabaseData();
+            GetDatabaseData();
         }
 
         // Item listener which listens for user clicks on the list view
         RecipeList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Creates a bundle which will hold the Primary Key of the clicked item
+                // Creates a bundle which will hold the Recipe Object of the clicked item
                 Bundle RecipeData = new Bundle();
-                RecipeData.putString("Recipe_PrimaryKey", PrimaryKeysList.get(position));
-                RecipeData.putString("Recipe_Title", TitlesList.get(position));
-                RecipeData.putString("Recipe_ImageFilePath", ImagesList.get(position));
+                RecipeData.putSerializable("recipe", RecipesList.get(position));
 
-                // Opens the detail Recipe Fragment and sends the Primary Key information to the fragment
+                // Opens the detail Recipe Fragment and sends the Recipe Object information to the fragment
                 Fragment fragment = new RecipeFragment();
                 fragment.setArguments(RecipeData);
                 FragmentManager fragmentManager = getFragmentManager();
@@ -59,18 +55,18 @@ public class MyRecipesFragment extends Fragment {
         return rootView;
     }
 
-    public void ObtainingDatabaseData(){
+    public void GetDatabaseData(){
         // For each record the Primary Key, Title and Image is obtained from their respective entry and loaded into a array list
         do{
-            rKey = cursor.getString(cursor.getColumnIndex(SQLDatabase.TableContent._ID));
-            rTitle = cursor.getString(cursor.getColumnIndex(SQLDatabase.TableContent.Column_Title));
-            rImage = cursor.getString(cursor.getColumnIndex(SQLDatabase.TableContent.Column_ImageFilePath));
-            PrimaryKeysList.add(rKey);
-            TitlesList.add(rTitle);
-            ImagesList.add(rImage);
+            mRecipe = new Recipe();
+            mRecipe.setPrimaryKey(cursor.getString(cursor.getColumnIndex(SQLDatabase.TableContent._ID)));
+            mRecipe.setTitle(cursor.getString(cursor.getColumnIndex(SQLDatabase.TableContent.Column_Title)));
+            mRecipe.setImageFilePath(cursor.getString(cursor.getColumnIndex(SQLDatabase.TableContent.Column_ImageFilePath)));
+            RecipesList.add(mRecipe);
         }while(cursor.moveToNext());                // condition is that this loop will continue as long there is a next row
+
         // This custom adapter takes the Title and Image arrays and populates the list view within this layout
-        MyRecipeListAdapter Adapter = new MyRecipeListAdapter(getActivity(), TitlesList, ImagesList);
+        MyRecipeListAdapter Adapter = new MyRecipeListAdapter(getActivity(), R.layout.my_recipes_layout, RecipesList);
         RecipeList.setAdapter(Adapter);
     }
 }

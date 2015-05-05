@@ -46,8 +46,16 @@ public class SQLDatabaseOperations extends SQLiteOpenHelper{
         onUpgrade(Database, OldVersion, NewVersion);
     }
 
-    public void DataEntry(SQLDatabaseOperations Database, String Title, String Difficulty, String Servings,
-                          String TotalTime, String Ingredients, String Instructions, String ImageFilePath){
+    public void DataEntry(SQLDatabaseOperations Database, Recipe mRecipe){
+
+        // Gets the recipe data from recipe object
+        String Title = mRecipe.getTitle();
+        String Difficulty = mRecipe.getDifficulty();
+        String Servings = mRecipe.getServings();
+        String TotalTime = mRecipe.getTime();
+        String Ingredients = mRecipe.getIngredients();
+        String Instructions = mRecipe.getInstructions();
+        String ImageFilePath = mRecipe.getImageFilePath();
 
         // Gets the data repository in write mode
         SQLiteDatabase DB = Database.getWritableDatabase();
@@ -76,11 +84,46 @@ public class SQLDatabaseOperations extends SQLiteOpenHelper{
         return cursor;
     }
 
-    public Cursor GetRow(SQLDatabaseOperations Database, String ID){
+    public Recipe GetRow(SQLDatabaseOperations Database, String ID){
         SQLiteDatabase DB = Database.getReadableDatabase();
         String[] Columns = {SQLDatabase.TableContent._ID, SQLDatabase.TableContent.Column_Title, SQLDatabase.TableContent.Column_Difficulty, SQLDatabase.TableContent.Column_Servings,
                 SQLDatabase.TableContent.Column_Time, SQLDatabase.TableContent.Column_Ingredients, SQLDatabase.TableContent.Column_Instructions, SQLDatabase.TableContent.Column_ImageFilePath};
         Cursor cursor = DB.query(SQLDatabase.TableContent.Table_Name, Columns, SQLDatabase.TableContent._ID+"=?", new String[]{ID}, null, null, null);
-        return cursor;
+        cursor.moveToFirst();
+
+        Recipe mRecipe = new Recipe();
+        mRecipe.setTitle(cursor.getString(cursor.getColumnIndex(SQLDatabase.TableContent.Column_Title)));
+        mRecipe.setDifficulty(cursor.getString(cursor.getColumnIndex(SQLDatabase.TableContent.Column_Difficulty)));
+        mRecipe.setServings(cursor.getString(cursor.getColumnIndex(SQLDatabase.TableContent.Column_Servings)));
+        mRecipe.setTime(cursor.getString(cursor.getColumnIndex(SQLDatabase.TableContent.Column_Time)));
+        mRecipe.setIngredients(cursor.getString(cursor.getColumnIndex(SQLDatabase.TableContent.Column_Ingredients)));
+        mRecipe.setInstructions(cursor.getString(cursor.getColumnIndex(SQLDatabase.TableContent.Column_Instructions)));
+        mRecipe.setImageFilePath(cursor.getString(cursor.getColumnIndex(SQLDatabase.TableContent.Column_ImageFilePath)));
+        mRecipe.setPrimaryKey(cursor.getString(cursor.getColumnIndex(SQLDatabase.TableContent._ID)));
+        return mRecipe;
+    }
+
+    public Recipe SaveChanges(SQLDatabaseOperations Database, Recipe mRecipe){
+        String Title = mRecipe.getTitle();
+        String Difficulty = mRecipe.getDifficulty();
+        String Servings = mRecipe.getServings();
+        String TotalTime = mRecipe.getTime();
+        String Ingredients = mRecipe.getIngredients();
+        String Instructions = mRecipe.getInstructions();
+        String ImageFilePath = mRecipe.getImageFilePath();
+        String PrimaryKey = mRecipe.getPrimaryKey();
+
+        SQLiteDatabase DB = Database.getWritableDatabase();
+        ContentValues EditRecipe = new ContentValues();
+        EditRecipe.put(SQLDatabase.TableContent.Column_Title, Title);
+        EditRecipe.put(SQLDatabase.TableContent.Column_Difficulty, Difficulty);
+        EditRecipe.put(SQLDatabase.TableContent.Column_Servings, Servings);
+        EditRecipe.put(SQLDatabase.TableContent.Column_Time, TotalTime);
+        EditRecipe.put(SQLDatabase.TableContent.Column_Ingredients, Ingredients);
+        EditRecipe.put(SQLDatabase.TableContent.Column_Instructions, Instructions);
+        EditRecipe.put(SQLDatabase.TableContent.Column_ImageFilePath, ImageFilePath);
+        DB.update(SQLDatabase.TableContent.Table_Name, EditRecipe,"_ID=" + PrimaryKey, null);
+        Log.d("Database Operations", "Recipe Updated");
+        return mRecipe;
     }
 }

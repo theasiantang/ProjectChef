@@ -41,6 +41,7 @@ public class GetDataAsync extends AsyncTask<String, Void, String>{
         StringBuilder builder = new StringBuilder();
         HttpClient client = new DefaultHttpClient();
         HttpGet httpget = new HttpGet(url);
+        httpget.setHeader("Accept", "application/json");
         try{
             HttpResponse response = client.execute(httpget);
             StatusLine statusLine = response.getStatusLine();

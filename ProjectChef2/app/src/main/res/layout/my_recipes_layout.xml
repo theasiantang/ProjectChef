@@ -19,9 +19,10 @@
         android:layout_alignRight="@+id/MyRecipeImageView"
         android:layout_alignEnd="@+id/MyRecipeImageView"
         android:layout_alignBottom="@+id/MyRecipeImageView"
-        android:gravity="bottom"
+        android:gravity="center"
         android:textColor="#000"
+        android:backgroundTint="@color/green"
+        android:backgroundTintMode="screen"
         android:text="My Recipe"
-        android:id="@+id/MyRecipeTitleView"
-        android:textAlignment="center" />
+        android:id="@+id/MyRecipeTitleView" />
 </RelativeLayout>
