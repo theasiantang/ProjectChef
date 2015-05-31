@@ -77,7 +77,7 @@ public class RecipeEditFragment extends Fragment {
             public void onClick(View v) {
                 Bundle InstructionData = new Bundle();
                 InstructionData.putString("InstructionData", InstructionsEdit.getText().toString());
-                InstructionDialog Dialog = new InstructionDialog();
+                InstructionEditDialog Dialog = new InstructionEditDialog();
                 Dialog.setArguments(InstructionData);
                 Dialog.show(getFragmentManager(), "Instruction_Dialog");
             }

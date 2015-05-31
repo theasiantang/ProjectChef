@@ -53,5 +53,15 @@
             android:layout_height="wrap_content"
             android:text="results"
             android:id="@+id/SearchResultView"/>
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/SearchRecipesListView"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="0dp"/>
     </LinearLayout>
 </ScrollView>

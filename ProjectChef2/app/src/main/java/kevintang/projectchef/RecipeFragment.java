@@ -112,7 +112,7 @@ public class RecipeFragment extends Fragment{
             TimeTextView.setText("N/A");
         }
         else{
-            TimeTextView.setText(mRecipe.getTime());
+            TimeTextView.setText(mRecipe.getTime() + " minutes");
         }
         if (mRecipe.getIngredients().matches("")) {
             IngredientsTextView.setText("Please add a list of ingredients used, to edit click the 'pencil' icon top right.");

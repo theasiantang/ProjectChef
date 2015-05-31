@@ -68,10 +68,12 @@ public class InstructionEditDialog extends DialogFragment{
                         Toast.makeText(getActivity(), "Step description required", Toast.LENGTH_SHORT).show();
                     }
                     else if(InstructionsText.matches("")){  // Checks if the edit text is empty, if so, its the first step
+                        RecipeEditFragment.InstructionsEdit.setText(Description);
                         Toast.makeText(getActivity(), "Step Added", Toast.LENGTH_SHORT).show();
                         dismiss(); // closes dialog box
                     }
                     else{   // if all pass then it means its the not the first step and description has been filled
+                        RecipeEditFragment.InstructionsEdit.setText(InstructionsText + "\n" + Description);
                         Toast.makeText(getActivity(), "Step Added", Toast.LENGTH_SHORT).show();
                         dismiss(); // closes dialog box
                     }

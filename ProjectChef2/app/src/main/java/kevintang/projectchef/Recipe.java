@@ -1,9 +1,6 @@
 package kevintang.projectchef;
 
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-
 import java.io.Serializable;
 
 /**

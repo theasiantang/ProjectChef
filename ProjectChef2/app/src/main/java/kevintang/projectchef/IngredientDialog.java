@@ -61,9 +61,10 @@ public class IngredientDialog extends DialogFragment {
                     String Unit = UnitEditText.getText().toString();
                     String NameIngredient = IngredientNameEditText.getText().toString();
                     String Ingredient = Quantity + " " + Unit + " " + NameIngredient;   // Ingredient
+
+                    // Grabs the ingredients inside the EditText from the
+                    // fragment and puts it into a string variable here for checking later
                     String IngredientsText = getArguments().getString("IngredientData");
-                            //AddRecipeFragment.IngredientsText.getText().toString();    // Grabs the ingredients inside the EditText from the
-                                                                                                        // fragment and puts it into a string variable here for checking later
 
                     // Add Ingredient button adds a new ingredient to the Editable text box for the user include ingredients for a recipe
                     // Each new ingredient added is given a newline
